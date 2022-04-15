@@ -1,0 +1,5 @@
+name: DiscordConsole
+version: '${project.version}'
+main: de.tomino.discordconsole.DiscordConsole
+api-version: 1.18
+description: a plugin that lets you interakt with mincrfat server console
