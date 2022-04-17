@@ -2,6 +2,8 @@ package de.tomino.discordconsole;
 
 import com.google.gson.Gson;
 import de.tomino.discordconsole.utils.DiscordBot;
+import de.tomino.discordconsole.utils.DiscordEvents;
+import de.tomino.discordconsole.utils.Lag;
 import de.tomino.discordconsole.utils.Logger;
 import net.dv8tion.jda.api.JDA;
 import org.apache.logging.log4j.LogManager;
@@ -18,12 +20,16 @@ public final class DiscordConsole extends JavaPlugin {
     private JDA jda;
     private Logger appender;
 
+
+
     @Override
     public void onEnable() {
 
 
         plugin = this;
         Bukkit.getPluginManager().registerEvents(new Logger.CLogger(), this);
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
+
 
         try {
             DiscordBot.main();
@@ -52,5 +58,8 @@ public final class DiscordConsole extends JavaPlugin {
         appender.stop();
         logger.removeAppender(appender);
         // Plugin shutdown logic
+    }
+    public static Plugin getPlugin() {
+        return plugin;
     }
 }

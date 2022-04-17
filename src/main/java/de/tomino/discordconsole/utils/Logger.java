@@ -60,6 +60,7 @@ public class Logger extends AbstractAppender {
             String message = event.getMessage();
             message = "[" + time + " MSG]: " + event.getPlayer().getName() + ": " + message + "\n";
             DiscordBot.sendMessage(message);
+
         }
     }
 
