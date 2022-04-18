@@ -2,9 +2,8 @@ package de.tomino.discordconsole;
 
 import com.google.gson.Gson;
 import de.tomino.discordconsole.utils.DiscordBot;
-import de.tomino.discordconsole.utils.DiscordEvents;
-import de.tomino.discordconsole.utils.Lag;
 import de.tomino.discordconsole.utils.Logger;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
@@ -12,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
+import java.awt.*;
 
 public final class DiscordConsole extends JavaPlugin {
 
@@ -26,10 +26,10 @@ public final class DiscordConsole extends JavaPlugin {
     public void onEnable() {
 
 
-        plugin = this;
-        Bukkit.getPluginManager().registerEvents(new Logger.CLogger(), this);
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
 
+
+
+        Bukkit.getPluginManager().registerEvents(new Logger.CLogger(), this);
 
         try {
             DiscordBot.main();
@@ -47,6 +47,13 @@ public final class DiscordConsole extends JavaPlugin {
 
         }
 
+        plugin = this;
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("DiscordConsole");
+        eb.setDescription("STARTUP");
+        eb.setColor(Color.GREEN);
+        DiscordBot.sendEmbed(eb);
+
 
     }
 
@@ -58,6 +65,12 @@ public final class DiscordConsole extends JavaPlugin {
         appender.stop();
         logger.removeAppender(appender);
         // Plugin shutdown logic
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("DiscordConsole");
+        eb.setDescription("STOPED");
+        eb.setColor(Color.RED);
+        DiscordBot.sendEmbed(eb);
     }
     public static Plugin getPlugin() {
         return plugin;
