@@ -11,6 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -21,6 +22,8 @@ public class Logger extends AbstractAppender {
     private DiscordConsole plugin;
     private JDA jda;
     private String messages = "";
+
+
 
     public Logger(DiscordConsole plugin, JDA j) {
         super("MyAppender", null, null);
@@ -33,6 +36,7 @@ public class Logger extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
+
 
         String message = event.getMessage().getFormattedMessage();
         message = "[" + time + " " + event.getLevel().toString() + "]: " + message + "\n";
