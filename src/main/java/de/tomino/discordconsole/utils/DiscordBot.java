@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -14,14 +13,9 @@ import java.util.ArrayList;
 
 public class DiscordBot extends ListenerAdapter {
 
-    private static JDA api;
-
     public static ArrayList<String> QueueMes = new ArrayList<>();
-
     public static ArrayList<EmbedBuilder> QueueEmb = new ArrayList<>();
-
-
-
+    private static JDA api;
 
     public static void main() throws LoginException {
 
@@ -30,12 +24,13 @@ public class DiscordBot extends ListenerAdapter {
         // We only need 2 intents in this bot. We only respond to messages in guilds and private channels.
         // All other events will be disabled.
 
-        api = JDABuilder.createLight("OTY1NzA5NjYxNjYxNzEyMzk0.Yl3JNQ.UW6MDb9PbUSR-5TJ-abzjZJ4HoQ", GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
+        api = JDABuilder.createLight("OTY1NzA5NjYxNjYxNzEyMzk0.Yl3JNQ.CGXCt3yzRRjYySpYXsLaojXFy70", GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
                 .setActivity(Activity.playing("with the console"))
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .build();
 
         api.addEventListener(new DiscordEvents());
+
 
     }
 
@@ -49,6 +44,7 @@ public class DiscordBot extends ListenerAdapter {
         }
 
     }
+
     public static void sendEmbed(EmbedBuilder embed) {
         if (!(DiscordEvents.ready)) {
             QueueEmb.add(embed);
@@ -58,13 +54,7 @@ public class DiscordBot extends ListenerAdapter {
         }
 
 
-
-
-
-
     }
-
-
 
 
 }

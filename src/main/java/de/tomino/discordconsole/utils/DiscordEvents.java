@@ -11,38 +11,35 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class DiscordEvents extends ListenerAdapter {
 
-    private DiscordConsole plugin;
-    private JDA jda;
     public static boolean ready = false;
     public static String channelId = "955091724689088515";
     public static String GuildId = "955091724689088512";
-
-
-
+    public static boolean enabled = true;
+    private DiscordConsole plugin;
+    private JDA jda;
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
-        if(e.getAuthor() == e.getJDA().getSelfUser()) {
+        if (e.getAuthor() == e.getJDA().getSelfUser()) {
             return;
         }
-        if(e.getMessage().getContentRaw().startsWith("!")) {
+        if (e.getMessage().getContentRaw().startsWith("!")) {
             channelId = e.getChannel().getId();
             GuildId = e.getGuild().getId();
 
         }
-        if(e.getMessage().getContentRaw().startsWith("#")) {
+        if (e.getMessage().getContentRaw().startsWith("#")) {
             return;
         }
 
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), e.getMessage().getContentRaw());
-            }
-        }.runTask(DiscordConsole.getPlugin());
-
-
+        if (enabled) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), e.getMessage().getContentRaw());
+                }
+            }.runTask(DiscordConsole.getPlugin());
+        }
     }
 
     @Override
@@ -58,7 +55,7 @@ public class DiscordEvents extends ListenerAdapter {
         DiscordBot.QueueEmb.clear();
 
         for (String s : DiscordBot.QueueMes) {
-           DiscordBot.sendMessage(s);
+            DiscordBot.sendMessage(s);
         }
         DiscordBot.QueueMes.clear();
 

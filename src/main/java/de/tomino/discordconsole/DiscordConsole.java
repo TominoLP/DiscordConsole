@@ -2,6 +2,7 @@ package de.tomino.discordconsole;
 
 import com.google.gson.Gson;
 import de.tomino.discordconsole.utils.DiscordBot;
+import de.tomino.discordconsole.utils.EnableCommand;
 import de.tomino.discordconsole.utils.Logger;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -12,24 +13,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
+import java.util.Objects;
 
 public final class DiscordConsole extends JavaPlugin {
 
+    public static boolean enabled = true;
     private static Plugin plugin;
     Gson gson = new Gson();
     private JDA jda;
     private Logger appender;
 
-
+    public static Plugin getPlugin() {
+        return plugin;
+    }
 
     @Override
     public void onEnable() {
 
 
-
-
-
         Bukkit.getPluginManager().registerEvents(new Logger.CLogger(), this);
+        Objects.requireNonNull(getCommand("enabledDC")).setExecutor(new EnableCommand());
 
         try {
             DiscordBot.main();
@@ -39,24 +42,25 @@ public final class DiscordConsole extends JavaPlugin {
 
         // Plugin startup logic
 
-        appender = new Logger(this, this.jda);
-        try {
-            final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) LogManager.getRootLogger();
-            logger.addAppender(appender);
-        } catch (Exception e) {
+        if (enabled) {
+            appender = new Logger(this, this.jda);
+            try {
+                final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) LogManager.getRootLogger();
+                logger.addAppender(appender);
+            } catch (Exception e) {
+            }
 
         }
 
         plugin = this;
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("DiscordConsole");
-        eb.setDescription("STARTUP");
+        eb.setTitle("Server");
+        eb.setDescription("STARTED");
         eb.setColor(Color.GREEN);
         DiscordBot.sendEmbed(eb);
 
 
     }
-
 
     @Override
     public void onDisable() {
@@ -67,12 +71,10 @@ public final class DiscordConsole extends JavaPlugin {
         // Plugin shutdown logic
 
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("DiscordConsole");
-        eb.setDescription("STOPED");
+        eb.setTitle("Server");
+        eb.setDescription("STOPPED");
         eb.setColor(Color.RED);
         DiscordBot.sendEmbed(eb);
-    }
-    public static Plugin getPlugin() {
-        return plugin;
+
     }
 }
