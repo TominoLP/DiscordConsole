@@ -16,7 +16,6 @@ public class DiscordBot extends ListenerAdapter {
     public static ArrayList<String> QueueMes = new ArrayList<>();
     public static ArrayList<EmbedBuilder> QueueEmb = new ArrayList<>();
     private static JDA api;
-
     public static void main() throws LoginException {
 
 

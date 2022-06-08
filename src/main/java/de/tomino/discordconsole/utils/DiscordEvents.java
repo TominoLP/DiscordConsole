@@ -2,12 +2,12 @@ package de.tomino.discordconsole.utils;
 
 import de.tomino.discordconsole.DiscordConsole;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 public class DiscordEvents extends ListenerAdapter {
 
@@ -15,8 +15,6 @@ public class DiscordEvents extends ListenerAdapter {
     public static String channelId = "955091724689088515";
     public static String GuildId = "955091724689088512";
     public static boolean enabled = true;
-    private DiscordConsole plugin;
-    private JDA jda;
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
@@ -33,7 +31,7 @@ public class DiscordEvents extends ListenerAdapter {
         }
 
         if (enabled) {
-            new BukkitRunnable() {
+                new BukkitRunnable() {
                 @Override
                 public void run() {
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), e.getMessage().getContentRaw());
@@ -43,9 +41,9 @@ public class DiscordEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onReady(ReadyEvent e) {
-        jda = e.getJDA();
-        plugin = DiscordConsole.getPlugin(DiscordConsole.class);
+    public void onReady(@NotNull ReadyEvent e) {
+
+        DiscordConsole plugin = DiscordConsole.getPlugin(DiscordConsole.class);
         plugin.getLogger().info("Discord ready!");
         ready = true;
 
@@ -61,6 +59,5 @@ public class DiscordEvents extends ListenerAdapter {
 
 
     }
-
 
 }

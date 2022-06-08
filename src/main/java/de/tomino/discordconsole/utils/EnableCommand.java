@@ -16,11 +16,7 @@ public class EnableCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (player.hasPermission("discordconsole.enable")) {
 
-                if (DiscordConsole.enabled) {
-                    DiscordConsole.enabled = false;
-                } else {
-                    DiscordConsole.enabled = true;
-                }
+                DiscordConsole.enabled = !DiscordConsole.enabled;
 
 
             }
